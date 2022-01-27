@@ -23,7 +23,7 @@ function main() {
             var imagePath = imageDir + dataArr[i][0] + ".psd"
             var imgFile = new File(imagePath);
             if (imgFile.exists === true) {
-                // 카드 이미지 교체
+                // 타운맵 아이콘 이미지 교체
                 selectLayerByName(imagelay.name)
                 RelinkToFile(imagePath)
 
