@@ -1,9 +1,9 @@
 // 마스터 파일 내용 추출하기
-var root = "/Users/woody/Desktop/FacebookBragMaker/" // 작업 파일 루트 경로
-var masterPath = root + "master_StoryImage.csv"    // 데이터 시트
-var psdPath = root + "StoryImage.psd"    // 원본 psd 파일
-var imageDir = root + "Src_TownMap/"    // 타운맵 아이콘 경로
-var saveDir = root + "Final_TownMap/"  // 최종 파일 저장 경로
+var root = "C:\\FacebookBragMaker\\" // 작업 파일 루트 경로
+var masterPath = root + "master.CSV"    // 데이터 시트
+var psdPath = root + "StoryCard.psd"    // 원본 psd 파일
+var imageDir = root + "Src_StoryCard\\"    // 카드 이미지 경로
+var saveDir = root + "Final_StoryCard\\"  // 최종 파일 저장 경로
 var imageFiles = []
 var dataArr = []
 
@@ -13,30 +13,41 @@ main()
 
 function main() {
     for(i = 0; dataArr.length > i; i++){
-        if(dataArr[i][0] == "ImageResKey"){
+        if(dataArr[i][2] == "ImageResKey"){
             continue
         } else {
             openBaseFile(psdPath)
 
             var doc = app.activeDocument
+            var starSet = doc.layerSets["Star"]
+            var star_layers = starSet.layers    // Star 그룹내에 있는 레이어들
+            var frameSet = doc.layerSets["Frame"]
+            var frame_layers = frameSet.layers  // Frame 그룹내에 있는 레이어들
             var imagelay = doc.layers.getByName("Image")
-            var imagePath = imageDir + dataArr[i][0] + ".psd"
+
+            var imagePath = imageDir + dataArr[i][2] + ".png"
             var imgFile = new File(imagePath);
             if (imgFile.exists === true) {
-                // 타운맵 아이콘 이미지 교체
+                // Star 활성화 처리
+                selectLayerByName(String(dataArr[i][1]))
+
+                // 프레임 활성화 처리
+                selectLayerByName(dataArr[i][0])
+
+                // 카드 이미지 교체
                 selectLayerByName(imagelay.name)
                 RelinkToFile(imagePath)
 
                 // 최종 PNG 파일 저장하고 닫기
-                var saveFilePath = saveDir + dataArr[i][1]
-                purposeSave(saveFilePath + ".", "jpg")
+                var saveFilePath = saveDir + dataArr[i][3]
+                purposeSave(saveFilePath + ".", "png24")
                 app.activeDocument.close(SaveOptions.DONOTSAVECHANGES)
             } else {
-                alert("Src_TownMap 폴더내에\n" + dataArr[i][0] + ".psd 파일이 존재하지 않습니다.")
+                alert("CardImage 폴더내에\n" + dataArr[i][2] + ".png 파일이 존재하지 않습니다.")
             }
         }
     }
-    alert("타운맵 자랑하기 이미지 제작이 완료되었습니다.")
+    alert("스토리 카드 제작이 완료되었습니다.")
 }
 
 // 카드 이미지 대체
