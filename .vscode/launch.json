@@ -24,6 +24,13 @@
             "name": "StoryCardMaker",
             "program": "${workspaceFolder}/StoryCardMaker.jsx",
             "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "SortingLayers",
+            "program": "${workspaceFolder}/SortingLayers.jsx",
+            "stopOnEntry": false
         }
     ]
 }
