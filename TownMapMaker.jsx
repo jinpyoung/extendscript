@@ -1,11 +1,14 @@
 // 마스터 파일 내용 추출하기
-var root = "C:\\FacebookBragMaker\\" // 작업 파일 루트 경로
+var root = "C:/FacebookBragMaker/" // 작업 파일 루트 경로
 var masterPath = root + "master_TownMap.CSV"    // 데이터 시트
 var psdPath = root + "TownMap.psd"    // 원본 psd 파일
-var imageDir = root + "Src_TownMap\\"    // 타운맵 아이콘 경로
-var saveDir = root + "Final_TownMap\\"  // 최종 파일 저장 경로
-var imageFiles = []
+var imageDir = root + "Src_TownMap/"    // 타운맵 아이콘 경로
+var saveDir = root + "Final_TownMap/"  // 최종 파일 저장 경로
+var logPath = root + "log.txt"
 var dataArr = []
+
+// log 텍스트 정보 지우고 새로 시작
+writeLog (logPath, "타운 자랑하기 양산을 시작합니다.\n", "w")
 
 // master.CSV에서 데이터 추출하기
 arrayExtractionFromTxtFile (masterPath)
@@ -29,14 +32,27 @@ function main() {
 
                 // 최종 PNG 파일 저장하고 닫기
                 var saveFilePath = saveDir + dataArr[i][1]
-                purposeSave(saveFilePath + ".", "jpg")
+                purposeSave(saveFilePath, "jpg")
                 app.activeDocument.close(SaveOptions.DONOTSAVECHANGES)
             } else {
-                alert("Src_TownMap 폴더내에\n" + dataArr[i][0] + ".psd 파일이 존재하지 않습니다.")
+                var txt = "Src_TownMap 폴더내에\n" + dataArr[i][0] + ".psd 파일이 존재하지 않습니다.\n----------------------------------------------------------"
+                writeLog (logPath, txt, "e")
             }
         }
     }
     alert("타운맵 자랑하기 이미지 제작이 완료되었습니다.")
+}
+
+function writeLog (txtFile, valueTxt, mode) {
+    try {
+        var logfile = new File(txtFile)
+        logfile.open(mode)
+        logfile.seek(0, 2);
+        logfile.writeln(valueTxt)
+        logfile.close()
+    } catch(e) {
+        alert(e)
+    }
 }
 
 // 카드 이미지 대체
@@ -150,12 +166,12 @@ function purposeSave(fileObj, extention) {
         pngOpt.format = SaveDocumentType.PNG;
         pngOpt.PNG8 = true;
         pngOpt.interlaced = false;
-        pngOpt.compression = 9;     //圧縮率の設定
+        pngOpt.compression = 9;
         activeDocument.exportDocument(fileObj,ExportType.SAVEFORWEB, pngOpt);
     }
         
     if(extention == "psd"){purposeSave["psd"]();}
     if(extention == "png8"){purposeSave["png8"]();}
     if(extention == "png24"){purposeSave["png24"]();}
-    if(extention == "jpg"){purposeSave["jpg"](80);}//jpgのクオリティ設定
+    if(extention == "jpg"){purposeSave["jpg"](80);}
 }

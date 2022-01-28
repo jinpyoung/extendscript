@@ -1,11 +1,14 @@
 // 마스터 파일 내용 추출하기
-var root = "C:\\FacebookBragMaker\\" // 작업 파일 루트 경로
-var masterPath = root + "master_StoryCard.CSV"    // 데이터 시트
+var root = "C:/FacebookBragMaker/" // 작업 파일 루트 경로
+var masterPath = root + "master_StoryCard.csv"    // 데이터 시트
 var psdPath = root + "StoryCard.psd"    // 원본 psd 파일
-var imageDir = root + "Src_StoryCard\\"    // 카드 이미지 경로
-var saveDir = root + "Final_StoryCard\\"  // 최종 파일 저장 경로
-var imageFiles = []
+var imageDir = root + "Src_StoryCard/"    // 카드 이미지 경로
+var saveDir = root + "Final_StoryCard/"  // 최종 파일 저장 경로
+var logPath = root + "log.txt"
 var dataArr = []
+
+// log 텍스트 정보 지우고 새로 시작
+writeLog (logPath, "스토리카드 양산을 시작합니다.\n", "w")
 
 // master.CSV에서 데이터 추출하기
 arrayExtractionFromTxtFile (masterPath)
@@ -40,14 +43,27 @@ function main() {
 
                 // 최종 PNG 파일 저장하고 닫기
                 var saveFilePath = saveDir + dataArr[i][3]
-                purposeSave(saveFilePath + ".", "png24")
+                purposeSave(saveFilePath, "jpg")
                 app.activeDocument.close(SaveOptions.DONOTSAVECHANGES)
             } else {
-                alert("Src_StoryCard 폴더내에\n" + dataArr[i][2] + ".png 파일이 존재하지 않습니다.")
+                var txt = "Src_StoryCard 폴더내에\n" + dataArr[i][2] + ".png 파일이 존재하지 않습니다.\n----------------------------------------------------------"
+                writeLog (logPath, txt, "e")
             }
         }
     }
     alert("스토리 카드 제작이 완료되었습니다.")
+}
+
+function writeLog (txtFile, valueTxt, mode) {
+    try {
+        var logfile = new File(txtFile)
+        logfile.open(mode)
+        logfile.seek(0, 2);
+        logfile.writeln(valueTxt)
+        logfile.close()
+    } catch(e) {
+        alert(e)
+    }
 }
 
 // 카드 이미지 대체

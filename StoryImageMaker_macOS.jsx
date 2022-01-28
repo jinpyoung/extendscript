@@ -1,11 +1,15 @@
 // 마스터 파일 내용 추출하기
-var root = "C:\\FacebookBragMaker\\" // 작업 파일 루트 경로
+var root = "/Users/woody/Desktop/FacebookBragMaker/" // 작업 파일 루트 경로
 var masterPath = root + "master.CSV"    // 데이터 시트
 var psdPath = root + "StoryCard.psd"    // 원본 psd 파일
-var imageDir = root + "Src_StoryCard\\"    // 카드 이미지 경로
-var saveDir = root + "Final_StoryCard\\"  // 최종 파일 저장 경로
+var imageDir = root + "Src_StoryCard/"    // 카드 이미지 경로
+var saveDir = root + "Final_StoryCard/"  // 최종 파일 저장 경로
+var logPath = root + "log.txt"
 var imageFiles = []
 var dataArr = []
+
+// log 텍스트 정보 지우고 새로 시작
+writeLog (logPath, "스토리완료 자랑하기 양산을 시작합니다.\n", "w")
 
 // master.CSV에서 데이터 추출하기
 arrayExtractionFromTxtFile (masterPath)
@@ -13,41 +17,43 @@ main()
 
 function main() {
     for(i = 0; dataArr.length > i; i++){
-        if(dataArr[i][2] == "ImageResKey"){
+        if(dataArr[i][0] == "ImageResKey"){
             continue
         } else {
             openBaseFile(psdPath)
 
             var doc = app.activeDocument
-            var starSet = doc.layerSets["Star"]
-            var star_layers = starSet.layers    // Star 그룹내에 있는 레이어들
-            var frameSet = doc.layerSets["Frame"]
-            var frame_layers = frameSet.layers  // Frame 그룹내에 있는 레이어들
             var imagelay = doc.layers.getByName("Image")
-
-            var imagePath = imageDir + dataArr[i][2] + ".png"
+            var imagePath = imageDir + dataArr[i][0] + ".png"
             var imgFile = new File(imagePath);
             if (imgFile.exists === true) {
-                // Star 활성화 처리
-                selectLayerByName(String(dataArr[i][1]))
-
-                // 프레임 활성화 처리
-                selectLayerByName(dataArr[i][0])
-
-                // 카드 이미지 교체
+                // 스토리 이미지 교체
                 selectLayerByName(imagelay.name)
                 RelinkToFile(imagePath)
 
-                // 최종 PNG 파일 저장하고 닫기
-                var saveFilePath = saveDir + dataArr[i][3]
-                purposeSave(saveFilePath + ".", "png24")
+                // 최종 jpg 파일 저장하고 닫기
+                var saveFilePath = saveDir + dataArr[i][1]
+                purposeSave(saveFilePath, "jpg")
                 app.activeDocument.close(SaveOptions.DONOTSAVECHANGES)
             } else {
-                alert("CardImage 폴더내에\n" + dataArr[i][2] + ".png 파일이 존재하지 않습니다.")
+                var txt = "Src_StoryCard 폴더내에\n" + dataArr[i][0] + ".png 파일이 존재하지 않습니다.\n----------------------------------------------------------"
+                writeLog (logPath, txt, "e")
             }
         }
     }
-    alert("스토리 카드 제작이 완료되었습니다.")
+    alert("타운맵 자랑하기 이미지 제작이 완료되었습니다.")
+}
+
+function writeLog (txtFile, valueTxt, mode) {
+    try {
+        var logfile = new File(txtFile)
+        logfile.open(mode)
+        logfile.seek(0, 2);
+        logfile.writeln(valueTxt)
+        logfile.close()
+    } catch(e) {
+        alert(e)
+    }
 }
 
 // 카드 이미지 대체

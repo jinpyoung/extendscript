@@ -1,11 +1,14 @@
 // 마스터 파일 내용 추출하기
 var root = "/Users/woody/Desktop/FacebookBragMaker/" // 작업 파일 루트 경로
-var masterPath = root + "master_TownMap.CSV"    // 데이터 시트
-var psdPath = root + "TownMap.psd"    // 원본 psd 파일
-var imageDir = root + "Src_TownMap/"    // 타운맵 아이콘 경로
-var saveDir = root + "Final_TownMap/"  // 최종 파일 저장 경로
-var imageFiles = []
+var masterPath = root + "master_StoryImage.csv"    // 데이터 시트
+var psdPath = root + "StoryImage.psd"    // 작업용 psd 파일
+var imageDir = root + "Src_StoryCard/"    // 스토리 이미지 소스 경로
+var saveDir = root + "Final_StoryCard/"  // 최종 파일 저장 경로
+var logPath = root + "log.txt"
 var dataArr = []
+
+// log 텍스트 정보 지우고 새로 시작
+writeLog (logPath, "타운 자랑하기 양산을 시작합니다.\n", "w")
 
 // master.CSV에서 데이터 추출하기
 arrayExtractionFromTxtFile (masterPath)
@@ -32,11 +35,24 @@ function main() {
                 purposeSave(saveFilePath + ".", "jpg")
                 app.activeDocument.close(SaveOptions.DONOTSAVECHANGES)
             } else {
-                alert("Src_TownMap 폴더내에\n" + dataArr[i][0] + ".psd 파일이 존재하지 않습니다.")
+                var txt = "Src_TownMap 폴더내에\n" + dataArr[i][0] + ".psd 파일이 존재하지 않습니다.\n----------------------------------------------------------"
+                writeLog (logPath, txt, "e")
             }
         }
     }
     alert("타운맵 자랑하기 이미지 제작이 완료되었습니다.")
+}
+
+function writeLog (txtFile, valueTxt, mode) {
+    try {
+        var logfile = new File(txtFile)
+        logfile.open(mode)
+        logfile.seek(0, 2);
+        logfile.writeln(valueTxt)
+        logfile.close()
+    } catch(e) {
+        alert(e)
+    }
 }
 
 // 카드 이미지 대체
