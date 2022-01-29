@@ -1,14 +1,17 @@
-var root = "/Users/woody/Desktop/StoryScrapMaker/"
-var srcDir = root + "Src/"
-var srcFiles = []
 var cnt = 0
-
-// 소스 폴더에서 파일 확인하기
-var srcFolder = new Folder(srcDir)
-srcFiles = srcFolder.getFiles()
 
 var doc = app.activeDocument
 var pngSaveName = doc.fullName.toString().replace(".psd","")    // png 저장 파일명
+
+// 대체할 이미지 파일명 리스트 등록 --> 원본 PSD의 파일명을 가공해서 만듦
+var cardNames = []
+cardNames.push(doc.fullName.toString().replace("Image_L.psd", "Card1.png"))
+cardNames.push(doc.fullName.toString().replace("Image_L.psd", "Card2.png"))
+cardNames.push(doc.fullName.toString().replace("Image_L.psd", "Card3.png"))
+cardNames.push(doc.fullName.toString().replace("Image_L.psd", "Card5.png"))
+cardNames.push(doc.fullName.toString().replace("Image_L.psd", "Card4.png"))
+cardNames.push(doc.fullName.toString().replace("Image_L.psd", "Card6.png"))
+
 var layers = doc.layers
 var subGroups = layers[0].layerSets
 
@@ -21,7 +24,7 @@ for (k = 0; subGroups.length > k; k++) {
         var desc = executeActionGet(ref)
 
         if (desc.hasKey(charIDToTypeID('Grup')) && desc.getBoolean(charIDToTypeID('Grup'))) {
-            RelinkToFile(srcFiles[cnt])
+            RelinkToFile(cardNames[cnt])
             cnt++
         }
     }
