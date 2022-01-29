@@ -31,6 +31,13 @@
             "name": "SortingLayers",
             "program": "${workspaceFolder}/SortingLayers.jsx",
             "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "StoryScrapMaker",
+            "program": "${workspaceFolder}/StoryScrapMaker.jsx",
+            "stopOnEntry": false
         }
     ]
 }
