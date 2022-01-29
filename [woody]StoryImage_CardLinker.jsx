@@ -1,37 +1,40 @@
 var cnt = 0
 
-var doc = app.activeDocument
-var pngSaveName = doc.fullName.toString().replace(".psd","")    // png 저장 파일명
+try {
+    var doc = app.activeDocument
+    var pngSaveName = doc.fullName.toString().replace(".psd","")    // png 저장 파일명
 
-// 대체할 이미지 파일명 리스트 등록 --> 원본 PSD의 파일명을 가공해서 만듦
-var cardNames = []
-cardNames.push(doc.fullName.toString().replace("Image_L", "Card1"))
-cardNames.push(doc.fullName.toString().replace("Image_L", "Card2"))
-cardNames.push(doc.fullName.toString().replace("Image_L", "Card3"))
-cardNames.push(doc.fullName.toString().replace("Image_L", "Card5"))
-cardNames.push(doc.fullName.toString().replace("Image_L", "Card4"))
-cardNames.push(doc.fullName.toString().replace("Image_L", "Card6"))
+    // 대체할 이미지 파일명 리스트 등록 --> 원본 PSD의 파일명을 가공해서 만듦
+    var cardNames = []
+    cardNames.push(doc.fullName.toString().replace("Image_L", "Card1"))
+    cardNames.push(doc.fullName.toString().replace("Image_L", "Card2"))
+    cardNames.push(doc.fullName.toString().replace("Image_L", "Card3"))
+    cardNames.push(doc.fullName.toString().replace("Image_L", "Card5"))
+    cardNames.push(doc.fullName.toString().replace("Image_L", "Card4"))
+    cardNames.push(doc.fullName.toString().replace("Image_L", "Card6"))
 
-var layers = doc.layers
-var subGroups = layers[0].layerSets
+    var layers = doc.layers
+    var subGroups = layers[0].layerSets
 
-for (k = 0; subGroups.length > k; k++) {
-    var sublayers = subGroups[k].layers
-    for (i = 0; sublayers.length > i; i++) {
-        doc.activeLayer = sublayers[i]
-        var ref = new ActionReference()
-        ref.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"))
-        var desc = executeActionGet(ref)
+    for (k = 0; subGroups.length > k; k++) {
+        var sublayers = subGroups[k].layers
+        for (i = 0; sublayers.length > i; i++) {
+            doc.activeLayer = sublayers[i]
+            var ref = new ActionReference()
+            ref.putEnumerated(charIDToTypeID("Lyr "), charIDToTypeID("Ordn"), charIDToTypeID("Trgt"))
+            var desc = executeActionGet(ref)
 
-        if (desc.hasKey(charIDToTypeID('Grup')) && desc.getBoolean(charIDToTypeID('Grup'))) {
-            RelinkToFile(cardNames[cnt])
-            cnt++
+            if (desc.hasKey(charIDToTypeID('Grup')) && desc.getBoolean(charIDToTypeID('Grup'))) {
+                RelinkToFile(cardNames[cnt])
+                cnt++
+            }
         }
     }
-}
 
-purposeSave(pngSaveName + ".", "png24")
-alert("모든 이미지가 교체되었습니다.")
+    purposeSave(pngSaveName + ".", "png24")
+    alert("모든 이미지가 교체되었습니다.")
+
+} catch(e) { alert("psd 파일을 열어주세요.") }
 
 // 이미지파일 링크 대체
 function RelinkToFile (fileObj) {

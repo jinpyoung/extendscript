@@ -1,17 +1,19 @@
-var doc = app.activeDocument
-var layRefs = doc.layers
-var layerLists = []
+try {
+  var doc = app.activeDocument
+  var layRefs = doc.layers
+  var layerLists = []
 
-// 전체 레이어의 이름을 가져온다.
-for (i = 0; layRefs.length > i; i++) {
-  layerLists.push(layRefs[i].name)
-}
-layerLists.sort()
+  // 전체 레이어의 이름을 가져온다.
+  for (i = 0; layRefs.length > i; i++) {
+    layerLists.push(layRefs[i].name)
+  }
+  layerLists.sort()
 
-for (i = 0; layRefs.length > i; i++) {
-    var targetLayer = getLayerByName(layerLists[i])
-    moveLayers(targetLayer, i)
-}
+  for (i = 0; layRefs.length > i; i++) {
+      var targetLayer = getLayerByName(layerLists[i])
+      moveLayers(targetLayer, i)
+  }
+} catch(e) { "psd 파일을 열어주세요." }
 
 // 선택된 레이어를 원하는 인덱스로 이동
 function moveLayers( layerIDs, targetLayerIndex ) {

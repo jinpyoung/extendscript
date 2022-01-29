@@ -1,10 +1,11 @@
 var doc = app.activeDocument
-var pngSaveName = doc.fullName.toString().replace(".psd","")    // png 저장 파일명
 
-dialog()
-
-// purposeSave(pngSaveName + ".", "png24")
-// alert("저장되었습니다.")
+try {
+    var pngSaveName = doc.fullName.toString().replace(".psd","")    // png 저장 파일명
+    dialog()
+} catch(e) {
+    alert("psd 파일로 저장한 후 다시 시도해주세요.")
+}
 
 // 파일 저장 옵션
 function purposeSave(fileObj, extention) {
