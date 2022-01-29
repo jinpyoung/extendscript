@@ -7,36 +7,8 @@
         {
             "type": "extendscript-debug",
             "request": "launch",
-            "name": "TownMapMaker",
-            "program": "${workspaceFolder}/TownMapMaker.jsx",
-            "stopOnEntry": false
-        },
-        {
-            "type": "extendscript-debug",
-            "request": "launch",
-            "name": "StoryImageMaker",
-            "program": "${workspaceFolder}/StoryImageMaker.jsx",
-            "stopOnEntry": false
-        },
-        {
-            "type": "extendscript-debug",
-            "request": "launch",
-            "name": "StoryCardMaker",
-            "program": "${workspaceFolder}/StoryCardMaker.jsx",
-            "stopOnEntry": false
-        },
-        {
-            "type": "extendscript-debug",
-            "request": "launch",
-            "name": "SortingLayers",
-            "program": "${workspaceFolder}/SortingLayers.jsx",
-            "stopOnEntry": false
-        },
-        {
-            "type": "extendscript-debug",
-            "request": "launch",
-            "name": "StoryScrapMaker",
-            "program": "${workspaceFolder}/StoryScrapMaker.jsx",
+            "name": "[woody]StoryImage_CardLinker",
+            "program": "${workspaceFolder}/[woody]StoryImage_CardLinker.jsx",
             "stopOnEntry": false
         }
     ]
