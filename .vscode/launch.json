@@ -7,8 +7,8 @@
         {
             "type": "extendscript-debug",
             "request": "launch",
-            "name": "[woody]StoryImage_CardLinker",
-            "program": "${workspaceFolder}/[woody]StoryImage_CardLinker.jsx",
+            "name": "testPS",
+            "program": "${workspaceFolder}/testPS.jsx",
             "stopOnEntry": false
         }
     ]

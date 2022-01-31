@@ -1,9 +1,42 @@
 var doc = app.activeDocument
+var save_name = doc.fullName.toString().replace(".psd","")    // png 저장 파일명
+var imageRef = doc.fullName.toString().replace("Icon", "Card6")
+var layersRef = doc.layers
 
-try {
-    var pngSaveName = doc.fullName.toString().replace(".psd","")    // png 저장 파일명
-    dialog()
-} catch(e) { alert("psd 파일로 저장한 후 다시 시도해주세요.") }
+laySets(layersRef, "Image")
+
+// 모든 레이어를 탐색하여 Image 레이어를 찾아 이미지를 대체한다. (재귀함수의 사용)
+function laySets(lays, layname)
+{
+    flag = true
+    if (flag)
+    {
+        for (var i = 0; lays.length > i; i++)
+        {
+            if (lays[i].layerSets != "[LayerSets]" && lays[i].name == layname)
+            {
+                doc.activeLayer = lays[i]
+                RelinkToFile (imageRef)
+                return false
+            }
+            else if (lays[i].layerSets == "[LayerSets]")
+            {
+                laySets(lays[i].layers)
+            }
+        }
+    }
+}
+
+// 이미지파일 링크 대체
+function RelinkToFile (fileObj) {
+   var idplacedLayerRelinkToFile = stringIDToTypeID( "placedLayerRelinkToFile" );
+   var desc4 = new ActionDescriptor();
+   var idnull = charIDToTypeID( "null" );
+   desc4.putPath( idnull, new File( fileObj));
+   var idPgNm = charIDToTypeID( "PgNm" );
+   desc4.putInteger( idPgNm, 1 );
+   executeAction( idplacedLayerRelinkToFile, desc4, DialogModes.NO );
+}
 
 // 파일 저장 옵션
 function purposeSave(fileObj, extention) {
@@ -61,26 +94,4 @@ function purposeSave(fileObj, extention) {
     if(extention == "png8"){purposeSave["png8"]();}
     if(extention == "png24"){purposeSave["png24"]();}
     if(extention == "jpg"){purposeSave["jpg"](80);}//jpgのクオリティ設定
-}
-
-// 다이얼로그 띄우기 (JPG, PNG 저장하기 버튼)
-function dialog() 
-{
-	var dlg = new Window('dialog', "Export");
-
-	dlg.btnGroup = dlg.add('group');
-	dlg.btnGroup.jpgBtn = dlg.btnGroup.add('button', undefined, "JPG");
-    dlg.btnGroup.pngBtn = dlg.btnGroup.add('button', undefined, "PNG");
-	dlg.btnGroup.cancelBtn = dlg.btnGroup.add('button', undefined, "Cancel");
-	
-	dlg.btnGroup.jpgBtn.onClick = function() {
-        purposeSave(pngSaveName, "jpg")
-        dlg.close()
-	}
-
-    dlg.btnGroup.pngBtn.onClick = function() {
-        purposeSave(pngSaveName + ".", "png24")
-        dlg.close()
-	}
-	dlg.show();
 }
