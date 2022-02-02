@@ -1,26 +1,20 @@
 var doc = app.activeDocument
-var save_name = doc.fullName.toString().replace(".psd","")    // png 저장 파일명
+var save_name = doc.fullName.toString().replace(".psd", "") // png 저장 파일명
 var imageRef = doc.fullName.toString().replace("Icon", "Card6")
 var layersRef = doc.layers
 
 laySets(layersRef, "Image")
 
 // 모든 레이어를 탐색하여 Image 레이어를 찾아 이미지를 대체한다. (재귀함수의 사용)
-function laySets(lays, layname)
-{
+function laySets(lays, layname) {
     flag = true
-    if (flag)
-    {
-        for (var i = 0; lays.length > i; i++)
-        {
-            if (lays[i].layerSets != "[LayerSets]" && lays[i].name == layname)
-            {
+    if (flag) {
+        for (var i = 0; lays.length > i; i++) {
+            if (lays[i].layerSets != "[LayerSets]" && lays[i].name == layname) {
                 doc.activeLayer = lays[i]
-                RelinkToFile (imageRef)
+                RelinkToFile(imageRef)
                 return false
-            }
-            else if (lays[i].layerSets == "[LayerSets]")
-            {
+            } else if (lays[i].layerSets == "[LayerSets]") {
                 laySets(lays[i].layers)
             }
         }
@@ -28,19 +22,19 @@ function laySets(lays, layname)
 }
 
 // 이미지파일 링크 대체
-function RelinkToFile (fileObj) {
-   var idplacedLayerRelinkToFile = stringIDToTypeID( "placedLayerRelinkToFile" );
-   var desc4 = new ActionDescriptor();
-   var idnull = charIDToTypeID( "null" );
-   desc4.putPath( idnull, new File( fileObj));
-   var idPgNm = charIDToTypeID( "PgNm" );
-   desc4.putInteger( idPgNm, 1 );
-   executeAction( idplacedLayerRelinkToFile, desc4, DialogModes.NO );
+function RelinkToFile(fileObj) {
+    var idplacedLayerRelinkToFile = stringIDToTypeID("placedLayerRelinkToFile");
+    var desc4 = new ActionDescriptor();
+    var idnull = charIDToTypeID("null");
+    desc4.putPath(idnull, new File(fileObj));
+    var idPgNm = charIDToTypeID("PgNm");
+    desc4.putInteger(idPgNm, 1);
+    executeAction(idplacedLayerRelinkToFile, desc4, DialogModes.NO);
 }
 
 // 파일 저장 옵션
 function purposeSave(fileObj, extention) {
-    
+
     purposeSave["jpg"] = [];
     purposeSave["psd"] = [];
     purposeSave["png8"] = [];
@@ -48,11 +42,11 @@ function purposeSave(fileObj, extention) {
 
     //jpg 로 저장
     purposeSave["jpg"] = function export_jpg(jpgQuary) {
-        fileObj = new File(fileObj+".jpg");
+        fileObj = new File(fileObj + ".jpg");
         var exp = new ExportOptionsSaveForWeb();
         exp.format = SaveDocumentType.JPEG;
-        exp.interlaced　= false;
-        exp.optimized= true;
+        exp.interlaced = false;
+        exp.optimized = true;
         exp.quality = jpgQuary;
         activeDocument.exportDocument(fileObj, ExportType.SAVEFORWEB, exp);
     }
@@ -80,18 +74,26 @@ function purposeSave(fileObj, extention) {
 
     // png 8로 저장
     purposeSave["png8"] = function export_png8() {
-        fileObj = new File(fileObj+".png");
+        fileObj = new File(fileObj + ".png");
         // 포토샵의 png8 저장 옵션 설정
-        var pngOpt  = new ExportOptionsSaveForWeb();
+        var pngOpt = new ExportOptionsSaveForWeb();
         pngOpt.format = SaveDocumentType.PNG;
         pngOpt.PNG8 = true;
         pngOpt.interlaced = false;
-        pngOpt.compression = 9;     //圧縮率の設定
-        activeDocument.exportDocument(fileObj,ExportType.SAVEFORWEB, pngOpt);
+        pngOpt.compression = 9; //圧縮率の設定
+        activeDocument.exportDocument(fileObj, ExportType.SAVEFORWEB, pngOpt);
     }
-        
-    if(extention == "psd"){purposeSave["psd"]();}
-    if(extention == "png8"){purposeSave["png8"]();}
-    if(extention == "png24"){purposeSave["png24"]();}
-    if(extention == "jpg"){purposeSave["jpg"](80);}//jpgのクオリティ設定
+
+    if (extention == "psd") {
+        purposeSave["psd"]();
+    }
+    if (extention == "png8") {
+        purposeSave["png8"]();
+    }
+    if (extention == "png24") {
+        purposeSave["png24"]();
+    }
+    if (extention == "jpg") {
+        purposeSave["jpg"](80);
+    } //jpgのクオリティ設定
 }
