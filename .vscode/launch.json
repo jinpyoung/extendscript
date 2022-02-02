@@ -7,8 +7,8 @@
         {
             "type": "extendscript-debug",
             "request": "launch",
-            "name": "testPS",
-            "program": "${workspaceFolder}/testPS.jsx",
+            "name": "[woody]AppIconMaker",
+            "program": "${workspaceFolder}/[woody]AppIconMaker.jsx",
             "stopOnEntry": false
         }
     ]

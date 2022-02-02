@@ -175,7 +175,7 @@ function purposeSave(fileObj, extention) {
         pngOpt.format = SaveDocumentType.PNG;
         pngOpt.PNG8 = true;
         pngOpt.interlaced = false;
-        pngOpt.compression = 9; //圧縮率の設定
+        pngOpt.compression = 9;
         activeDocument.exportDocument(fileObj, ExportType.SAVEFORWEB, pngOpt);
     }
 
@@ -190,5 +190,5 @@ function purposeSave(fileObj, extention) {
     }
     if (extention == "jpg") {
         purposeSave["jpg"](80);
-    } //jpgのクオリティ設定
+    }
 }
