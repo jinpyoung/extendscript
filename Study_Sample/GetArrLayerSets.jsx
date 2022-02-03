@@ -3,10 +3,10 @@ var groups_all = []
 var doc = app.activeDocument
 var lays = doc.layers
 
-groups_all = getLayerSetsArray(lays)
+groups_all = getArrLayerSets(lays)
 
 // 도큐먼트에서 모든 그룹을 찾아서 배열을 리턴한다.
-function getLayerSetsArray(laysRef) {
+function getArrLayerSets(laysRef) {
     var flag = true
     var groups = []
     var foundLayer = null
@@ -15,7 +15,7 @@ function getLayerSetsArray(laysRef) {
         for (var i = 0; i < laysRef.length; i++) {
             if (laysRef[i].layerSets == "[LayerSets]") {
                 groups.push(laysRef[i])
-                getLayerSetsArray(laysRef[i].layers)
+                getArrLayerSets(laysRef[i].layers)
             } else {
                 continue
             }
