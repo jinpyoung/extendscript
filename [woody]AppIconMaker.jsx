@@ -27,19 +27,24 @@ if(app.documents.length == 0) {
 function main() {
 
     var root = Folder.selectDialog ('AppIcon 을 생성할 폴더를 선택하세요.')   // 저장 폴더 선택
-    var aos_dir = Folder(root + "/" + aos_name)
-    var ios_dir = Folder(root + "/" + ios_name)
-    var aos_dir_adaptive = Folder(root + "/" + aos_name_adaptive)
-    if (aos_dir.exists == false) { aos_dir.create() }    // aOS 폴더 생성
-    if (ios_dir.exists == false) { ios_dir.create() }    // iOS 폴더 생성
-    if (aos_dir_adaptive.exists == false) { aos_dir_adaptive.create() }    // aOS(Adaptive) 폴더 생성
+    if (root == null) {
+        alert("파일 저장 경로가 선택되지 않았습니다.\n스크립트를 다시 실행해주세요.")
+    } else {
+        var aos_dir = Folder(root + "/" + aos_name)
+        var ios_dir = Folder(root + "/" + ios_name)
+        var aos_dir_adaptive = Folder(root + "/" + aos_name_adaptive)
+        if (aos_dir.exists == false) { aos_dir.create() }    // aOS 폴더 생성
+        if (ios_dir.exists == false) { ios_dir.create() }    // iOS 폴더 생성
+        if (aos_dir_adaptive.exists == false) { aos_dir_adaptive.create() }    // aOS(Adaptive) 폴더 생성
 
-    resourceOutput("android_", aos_size,aos_dir,  aos_name) // aOS 아이콘 제작 
-    resourceOutput("ios_", ios_size, ios_dir, ios_name) // iOS 아이콘 제작
-    adaptiveAppIconMake("f", aos_adaptive_size, aos_dir_adaptive, aos_name_adaptive)    // aOS(Adaptive) forground 제작
-    adaptiveAppIconMake("b", aos_adaptive_size, aos_dir_adaptive, aos_name_adaptive)    // aOS(Adaptive) background 제작
+        resourceOutput("android_", aos_size,aos_dir,  aos_name) // aOS 아이콘 제작 
+        resourceOutput("ios_", ios_size, ios_dir, ios_name) // iOS 아이콘 제작
+        adaptiveAppIconMake("f", aos_adaptive_size, aos_dir_adaptive, aos_name_adaptive)    // aOS(Adaptive) forground 제작
+        adaptiveAppIconMake("b", aos_adaptive_size, aos_dir_adaptive, aos_name_adaptive)    // aOS(Adaptive) background 제작
 
-    alert("완료되었습니다.")
+        alert("완료되었습니다.")
+    }
+
 }
 
 // 반응형 앱아이콘 제작 : visible_str 은 "f" , "b" 두개만 사용 가능

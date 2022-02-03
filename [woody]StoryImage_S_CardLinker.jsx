@@ -2,24 +2,11 @@ var doc = app.activeDocument
 var save_name = doc.fullName.toString().replace(".psd", "") // png 저장 파일명
 var imageRef = doc.fullName.toString().replace("Icon", "Card6")
 var layersRef = doc.layers
-
-laySets(layersRef, "Image")
-
-// 모든 레이어를 탐색하여 Image 레이어를 찾아 이미지를 대체한다. (재귀함수의 사용)
-function laySets(lays, layname) {
-    flag = true
-    if (flag) {
-        for (var i = 0; lays.length > i; i++) {
-            if (lays[i].layerSets != "[LayerSets]" && lays[i].name == layname) {
-                doc.activeLayer = lays[i]
-                RelinkToFile(imageRef)
-                return false
-            } else if (lays[i].layerSets == "[LayerSets]") {
-                laySets(lays[i].layers)
-            }
-        }
-    }
-}
+doc.activeLayer = layersRef[0]
+RelinkToFile(imageRef)
+purposeSave(save_name, "png24")
+doc.save()
+doc.close()
 
 // 이미지파일 링크 대체
 function RelinkToFile(fileObj) {
