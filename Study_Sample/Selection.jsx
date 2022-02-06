@@ -51,3 +51,13 @@ checkersDoc.selection.deselect()
 app.preferences.rulerUnits = startRulerUnits
 app.preferences.typeUnits = startTypeUnits
 app.displayDialogs = startDisplayDialogs
+
+function WaitForReDraw() {
+    var eventWait = charIDToTypeID("Wait")
+    var enumRedrawComplete = charIDToTypeID("RdCm")
+    var typeState = charIDToTypeID("Stte")
+    var keyState = charIDToTypeID("Stte")
+    var desc = new ActionDescriptor()
+    desc.putEnumerated(keyState, typeState, enumRedrawComplete)
+    excuteAction(eventWait, desc, DialogModes.NO)
+}
