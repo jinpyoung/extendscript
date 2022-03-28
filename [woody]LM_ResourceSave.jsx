@@ -1,12 +1,50 @@
 var doc = app.activeDocument
 
 try {
-    var saveName = doc.fullName.toString().replace(".psd", "") // png 저장 파일명
+    //현재 파일의 경로를 추출
+    var filePath = decodeURI(doc.fullName.toString().replace(".psd", "").replace(".psb", "").replace(".jpg", "").replace(".png", ""))
+    var arr = filePath.split('/')   // '/'로 텍스트를 분리
+    var filename = arr[arr.length-1]   // 현재 파일의 이름
+    var savePath_CommonAtlas = "/Users/woody/Desktop/Treenod/PokoPoko G Team/Project_LightMeta/LM_Design/UI/Atlas_Common/" + filename
+    var savePath_LobbyAtlas = "/Users/woody/Desktop/Treenod/PokoPoko G Team/Project_LightMeta/LM_Design/UI/Atlas_Lobby/" + filename
+    var savePath_Texture = "/Users/woody/Desktop/Treenod/PokoPoko G Team/Project_LightMeta/LM_Design/UI/RSC_Texture/" + filename
     dialog()
 } catch (e) {
     alert("psd 파일로 저장한 후 다시 시도해주세요.")
 }
 
+// 다이얼로그 띄우기 (Background, Character, Object 저장하기 버튼)
+function dialog() {
+    var dlg = new Window('dialog', "Export");
+
+    dlg.btnGroup = dlg.add('group');
+    dlg.btnGroup.commonAtlasBtn = dlg.btnGroup.add('button', undefined, "CommonAtlas");
+    dlg.btnGroup.lobbyAtlasBtn = dlg.btnGroup.add('button', undefined, "LobbyAtlas");
+    dlg.btnGroup.TextureBtn = dlg.btnGroup.add('button', undefined, "Texture");
+    dlg.btnGroup.cancelBtn = dlg.btnGroup.add('button', undefined, "Cancel");
+
+    dlg.btnGroup.commonAtlasBtn.onClick = function() {
+        purposeSave(savePath_BG, "psd")
+        saveForWebPNG(savePath_BG + ".png")
+        dlg.close()
+    }
+
+    dlg.btnGroup.lobbyAtlasBtn.onClick = function() {
+        purposeSave(savePath_Cha, "psd")
+        saveForWebPNG(savePath_Cha + ".png")
+        dlg.close()
+    }
+
+    dlg.btnGroup.TextureBtn.onClick = function() {
+        purposeSave(savePath_Obj, "psd")
+        saveForWebPNG(savePath_Obj + ".png")
+        dlg.close()
+    }
+
+    dlg.show();
+}
+
+// PNG 저장
 function saveForWebPNG(outputFolderStr)
 {
     var opts, file;
@@ -18,7 +56,7 @@ function saveForWebPNG(outputFolderStr)
     activeDocument.exportDocument(file, ExportType.SAVEFORWEB, opts);
 }
 
-// 파일 저장 옵션
+// 저장 옵션들
 function purposeSave(fileObj, extention) {
     purposeSave["jpg"] = [];
     purposeSave["psd"] = [];
@@ -78,23 +116,3 @@ function purposeSave(fileObj, extention) {
     }
 }
 
-// 다이얼로그 띄우기 (JPG, PNG 저장하기 버튼)
-function dialog() {
-    var dlg = new Window('dialog', "Export");
-
-    dlg.btnGroup = dlg.add('group');
-    dlg.btnGroup.jpgBtn = dlg.btnGroup.add('button', undefined, "JPG");
-    dlg.btnGroup.pngBtn = dlg.btnGroup.add('button', undefined, "PNG");
-    dlg.btnGroup.cancelBtn = dlg.btnGroup.add('button', undefined, "Cancel");
-
-    dlg.btnGroup.jpgBtn.onClick = function() {
-        purposeSave(saveName, "jpg")
-        dlg.close()
-    }
-
-    dlg.btnGroup.pngBtn.onClick = function() {
-        saveForWebPNG(saveName + ".png")
-        dlg.close()
-    }
-    dlg.show();
-}
