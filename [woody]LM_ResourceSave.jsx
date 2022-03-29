@@ -5,9 +5,10 @@ try {
     var filePath = decodeURI(doc.fullName.toString().replace(".psd", "").replace(".psb", "").replace(".jpg", "").replace(".png", ""))
     var arr = filePath.split('/')   // '/'로 텍스트를 분리
     var filename = arr[arr.length-1]   // 현재 파일의 이름
-    var savePath_CommonAtlas = "/Users/woody/Desktop/Treenod/PokoPoko G Team/Project_LightMeta/LM_Design/UI/Atlas_Common/" + filename
-    var savePath_LobbyAtlas = "/Users/woody/Desktop/Treenod/PokoPoko G Team/Project_LightMeta/LM_Design/UI/Atlas_Lobby/" + filename
-    var savePath_Texture = "/Users/woody/Desktop/Treenod/PokoPoko G Team/Project_LightMeta/LM_Design/UI/RSC_Texture/" + filename
+    var root = "/Users/woody/Desktop/Treenod/PokoPoko G Team/Project_LightMeta/LM_Design/UI/"
+    var savePath_CommonAtlas = root + "Atlas_Common/" + filename
+    var savePath_LobbyAtlas = root + "Atlas_Lobby/" + filename
+    var savePath_Texture = root + "RSC_Texture/" + filename
     dialog()
 } catch (e) {
     alert("psd 파일로 저장한 후 다시 시도해주세요.")
@@ -24,20 +25,20 @@ function dialog() {
     dlg.btnGroup.cancelBtn = dlg.btnGroup.add('button', undefined, "Cancel");
 
     dlg.btnGroup.commonAtlasBtn.onClick = function() {
-        purposeSave(savePath_BG, "psd")
-        saveForWebPNG(savePath_BG + ".png")
+        purposeSave(savePath_CommonAtlas, "psd")
+        saveForWebPNG(savePath_CommonAtlas + ".png")
         dlg.close()
     }
 
     dlg.btnGroup.lobbyAtlasBtn.onClick = function() {
-        purposeSave(savePath_Cha, "psd")
-        saveForWebPNG(savePath_Cha + ".png")
+        purposeSave(savePath_LobbyAtlas, "psd")
+        saveForWebPNG(savePath_LobbyAtlas + ".png")
         dlg.close()
     }
 
     dlg.btnGroup.TextureBtn.onClick = function() {
-        purposeSave(savePath_Obj, "psd")
-        saveForWebPNG(savePath_Obj + ".png")
+        purposeSave(savePath_Texture, "psd")
+        saveForWebPNG(savePath_Texture + ".png")
         dlg.close()
     }
 
