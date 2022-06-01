@@ -5,40 +5,40 @@ try {
     var filePath = decodeURI(doc.fullName.toString().replace(".psd", "").replace(".psb", "").replace(".jpg", "").replace(".png", ""))
     var arr = filePath.split('/')   // '/'로 텍스트를 분리
     var filename = arr[arr.length-1]   // 현재 파일의 이름
-    var root = "/Users/woody/Creative Cloud Files/Project_PKPKG/SNS 제작용 리소스 모음(PSD)/"
-    var savePath_BG = root + "Background/" + filename
-    var savePath_Cha = root + "Character/" + filename
-    var savePath_Obj = root + "Object/" + filename
+    var root = "/Users/woody/Creative Cloud Files/Project_CoinBlossom/00_Design_Final"
+    var savePath_CommonAtlas = root + "Resource_Atlas_Common/" + filename
+    var savePath_PlaySceneAtlas = root + "Resource_Atlas_PlayScene/" + filename
+    var savePath_Texture = root + "Resource_Texture/" + filename
     dialog()
 } catch (e) {
     alert("psd 파일로 저장한 후 다시 시도해주세요.")
 }
 
-// 다이얼로그 띄우기 (Background, Character, Object 저장하기 버튼)
+// 다이얼로그 띄우기 (CommonAtlas, PlaySceneAtlas, Texture 저장하기 버튼)
 function dialog() {
     var dlg = new Window('dialog', "Export");
 
     dlg.btnGroup = dlg.add('group');
-    dlg.btnGroup.bgBtn = dlg.btnGroup.add('button', undefined, "배경");
-    dlg.btnGroup.chaBtn = dlg.btnGroup.add('button', undefined, "캐릭터");
-    dlg.btnGroup.objBtn = dlg.btnGroup.add('button', undefined, "오브젝트");
+    dlg.btnGroup.commonAtlasBtn = dlg.btnGroup.add('button', undefined, "CommonAtlas");
+    dlg.btnGroup.playSceneAtlasBtn = dlg.btnGroup.add('button', undefined, "PlaySceneAtlas");
+    dlg.btnGroup.textureBtn = dlg.btnGroup.add('button', undefined, "Texture");
     dlg.btnGroup.cancelBtn = dlg.btnGroup.add('button', undefined, "Cancel");
 
-    dlg.btnGroup.bgBtn.onClick = function() {
-        purposeSave(savePath_BG, "psd")
-        saveForWebPNG(savePath_BG + ".png")
+    dlg.btnGroup.commonAtlasBtn.onClick = function() {
+        purposeSave(savePath_CommonAtlas, "psd")
+        saveForWebPNG(savePath_CommonAtlas + ".png")
         dlg.close()
     }
 
-    dlg.btnGroup.chaBtn.onClick = function() {
-        purposeSave(savePath_Cha, "psd")
-        saveForWebPNG(savePath_Cha + ".png")
+    dlg.btnGroup.playSceneAtlasBtn.onClick = function() {
+        purposeSave(savePath_PlaySceneAtlas, "psd")
+        saveForWebPNG(savePath_PlaySceneAtlas + ".png")
         dlg.close()
     }
 
-    dlg.btnGroup.objBtn.onClick = function() {
-        purposeSave(savePath_Obj, "psd")
-        saveForWebPNG(savePath_Obj + ".png")
+    dlg.btnGroup.textureBtn.onClick = function() {
+        purposeSave(savePath_Texture, "psd")
+        saveForWebPNG(savePath_Texture + ".png")
         dlg.close()
     }
 
